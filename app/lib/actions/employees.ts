@@ -1,0 +1,107 @@
+'use server';
+
+import { z } from 'zod';
+import { prisma } from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { CreateUserSchema, UpdateUserSchema, UserFormState } from '@/app/lib/definitions';
+import bcrypt from 'bcryptjs';
+
+export async function createUser(prevState: UserFormState, formData: FormData) {
+    const validatedFields = CreateUserSchema.safeParse({
+        name: formData.get('name'),
+        email: formData.get('email'),
+        password: formData.get('password'),
+        role: formData.get('role'),
+    });
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Faltan campos obligatorios o datos inválidos.',
+        };
+    }
+
+    const { name, email, password, role } = validatedFields.data;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    try {
+        await prisma.user.create({
+            data: {
+                name,
+                email,
+                passwordHash: hashedPassword,
+                role,
+            },
+        });
+    } catch (error) {
+        console.error('Database Error:', error);
+        return {
+            message: 'Error de base de datos: No se pudo crear el usuario. El email podría estar duplicado.',
+        };
+    }
+
+    revalidatePath('/dashboard/employees');
+    redirect('/dashboard/employees');
+}
+
+export async function updateUser(
+    id: string,
+    prevState: UserFormState,
+    formData: FormData,
+) {
+    const validatedFields = UpdateUserSchema.safeParse({
+        id: id,
+        name: formData.get('name'),
+        email: formData.get('email'),
+        password: formData.get('password') || undefined, // Send undefined if empty to avoid update
+        role: formData.get('role'),
+    });
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Faltan campos obligatorios.',
+        };
+    }
+
+    const { name, email, password, role } = validatedFields.data;
+
+    const dataToUpdate: any = {
+        name,
+        email,
+        role
+    };
+
+    if (password && password.trim() !== '') {
+        dataToUpdate.passwordHash = await bcrypt.hash(password, 10);
+    }
+
+    try {
+        await prisma.user.update({
+            where: { id },
+            data: dataToUpdate,
+        });
+    } catch (error) {
+        console.error('Database Error:', error);
+        return {
+            message: 'Error de base de datos: No se pudo actualizar el usuario.',
+        };
+    }
+
+    revalidatePath('/dashboard/employees');
+    redirect('/dashboard/employees');
+}
+
+export async function deleteUser(id: string) {
+    try {
+        await prisma.user.delete({
+            where: { id },
+        });
+        revalidatePath('/dashboard/employees');
+        return { message: 'Usuario eliminado.' };
+    } catch (error) {
+        console.error('Database Error:', error);
+        return { message: 'Error de base de datos: No se pudo eliminar el usuario.' };
+    }
+}

@@ -1,0 +1,96 @@
+import { UpdateRecipe, DeleteRecipe } from '@/app/ui/recipes/buttons';
+import { prisma } from '@/lib/prisma';
+import { formatUnit } from '@/app/lib/units';
+import { calculateRecipeCost, formatCurrency } from '@/app/lib/costing';
+
+export default async function RecipesTable({
+    query,
+    currentPage,
+}: {
+    query: string;
+    currentPage: number;
+}) {
+    const recipes = await prisma.recipe.findMany({
+        where: {
+            name: { contains: query },
+        },
+        orderBy: { name: 'asc' },
+        include: {
+            items: {
+                include: {
+                    ingredient: true
+                }
+            }
+        },
+    });
+
+    return (
+        <div className="mt-6 flow-root">
+            <div className="inline-block min-w-full align-middle">
+                <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+                    <table className="hidden min-w-full text-gray-900 md:table">
+                        <thead className="rounded-lg text-left text-sm font-normal">
+                            <tr>
+                                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                                    Nombre
+                                </th>
+                                <th scope="col" className="px-3 py-5 font-medium">
+                                    Rendimiento
+                                </th>
+                                <th scope="col" className="px-3 py-5 font-medium">
+                                    Coste Total
+                                </th>
+                                <th scope="col" className="px-3 py-5 font-medium">
+                                    Coste / Unidad
+                                </th>
+                                <th scope="col" className="px-3 py-5 font-medium">
+                                    Ingredientes
+                                </th>
+                                <th scope="col" className="relative py-3 pl-6 pr-3">
+                                    <span className="sr-only">Edit</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody className="bg-white">
+                            {recipes.map((recipe: any) => {
+                                const totalCost = calculateRecipeCost(recipe);
+                                const costPerUnit = recipe.yieldQuantity > 0 ? totalCost / recipe.yieldQuantity : 0;
+
+                                return (
+                                    <tr
+                                        key={recipe.id}
+                                        className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+                                    >
+                                        <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                                            <div className="flex items-center gap-3">
+                                                <p>{recipe.name}</p>
+                                            </div>
+                                        </td>
+                                        <td className="whitespace-nowrap px-3 py-3">
+                                            {recipe.yieldQuantity} {recipe.yieldUnit}
+                                        </td>
+                                        <td className="whitespace-nowrap px-3 py-3 font-semibold text-gray-700">
+                                            {formatCurrency(totalCost)}
+                                        </td>
+                                        <td className="whitespace-nowrap px-3 py-3 text-green-600 font-bold">
+                                            {formatCurrency(costPerUnit)}
+                                        </td>
+                                        <td className="whitespace-nowrap px-3 py-3">
+                                            {recipe.items?.length || 0} items
+                                        </td>
+                                        <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                                            <div className="flex justify-end gap-3">
+                                                <UpdateRecipe id={recipe.id} />
+                                                <DeleteRecipe id={recipe.id} />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    );
+}
