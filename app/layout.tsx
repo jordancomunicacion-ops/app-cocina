@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "App Cocina SOTOdelPRIOR",
   description: "Sistema de gestión de cocina",
+  icons: {
+    icon: "/icon.png",
+  },
 };
 
 export default function RootLayout({

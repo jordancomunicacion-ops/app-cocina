@@ -1,6 +1,7 @@
 import InventoryTable from '@/app/ui/inventory/table';
 import { CreateIngredient } from '@/app/ui/inventory/buttons';
 import { Suspense } from 'react';
+import { CsvManager } from '@/app/ui/inventory/CsvManager';
 
 export default async function Page({
     searchParams,
@@ -21,7 +22,10 @@ export default async function Page({
             </div>
             <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
                 {/* <Search placeholder="Buscar ingredientes..." /> */}
-                <CreateIngredient />
+                <div className="flex gap-2">
+                    <CsvManager />
+                    <CreateIngredient />
+                </div>
             </div>
             {/* <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}> */}
             <Suspense fallback={<div>Cargando...</div>}>
