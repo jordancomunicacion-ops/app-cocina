@@ -106,6 +106,13 @@ export const UserSchema = z.object({
     email: z.string().email({ message: 'Email inválido.' }),
     password: z.string().min(6, { message: 'La contraseña debe tener al menos 6 caracteres.' }).optional(),
     role: z.enum(['ADMIN', 'CHEF', 'EMPLOYEE']),
+    // Extended Profile
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    dni: z.string().optional(),
+    phone: z.string().optional(),
+    jobTitle: z.string().optional(),
+    dob: z.string().optional(), // Receive as string from form date input
 });
 
 export const CreateUserSchema = UserSchema.omit({ id: true }).extend({
@@ -119,6 +126,12 @@ export type UserFormState = {
         email?: string[];
         password?: string[];
         role?: string[];
+        firstName?: string[];
+        lastName?: string[];
+        dni?: string[];
+        phone?: string[];
+        jobTitle?: string[];
+        dob?: string[];
     };
     message?: string | null;
 };

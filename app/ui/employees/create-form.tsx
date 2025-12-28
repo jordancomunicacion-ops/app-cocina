@@ -1,6 +1,7 @@
 'use client';
 
-import { createUser, UserFormState } from '@/app/lib/actions/employees';
+import { createUser } from '@/app/lib/actions/employees';
+import { UserFormState } from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
     UserIcon,
@@ -16,110 +17,134 @@ export default function Form() {
 
     return (
         <form action={formAction}>
-            <div className="rounded-md bg-gray-50 p-4 md:p-6">
-                {/* Name */}
-                <div className="mb-4">
-                    <label htmlFor="name" className="mb-2 block text-sm font-medium">
-                        Nombre del Empleado
-                    </label>
-                    <div className="relative mt-2 rounded-md">
-                        <input
-                            id="name"
-                            name="name"
-                            type="text"
-                            placeholder="Ej. Juan Pérez"
-                            className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
-                            aria-describedby="name-error"
-                        />
-                        <div id="name-error" aria-live="polite" aria-atomic="true">
-                            {state.errors?.name &&
-                                state.errors.name.map((error: string) => (
-                                    <p key={error} className="mt-2 text-sm text-red-500">
-                                        {error}
-                                    </p>
+            <div className="rounded-xl bg-white p-6 shadow-sm border border-gray-100">
+
+                {/* GRID LAYOUT */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    {/* 1. Account Info */}
+                    <div className="space-y-4">
+                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider border-b pb-1">Cuenta</h4>
+
+                        {/* Name (Username) */}
+                        <div>
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nombre de Usuario</label>
+                            <input
+                                id="name"
+                                name="name"
+                                type="text"
+                                placeholder="Ej. jperez"
+                                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none"
+                                aria-describedby="name-error"
+                            />
+                            <div id="name-error" aria-live="polite" aria-atomic="true">
+                                {state.errors?.name && state.errors.name.map((error: string) => (
+                                    <p key={error} className="mt-1 text-xs text-red-500">{error}</p>
                                 ))}
+                            </div>
+                        </div>
+
+                        {/* Email */}
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email (Acceso)</label>
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="juan@cocina.com"
+                                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none"
+                            />
+                            <div id="email-error" aria-live="polite" aria-atomic="true">
+                                {state.errors?.email && state.errors.email.map((error: string) => (
+                                    <p key={error} className="mt-1 text-xs text-red-500">{error}</p>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Password */}
+                        <div>
+                            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                placeholder="******"
+                                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none"
+                            />
+                            <div id="password-error" aria-live="polite" aria-atomic="true">
+                                {state.errors?.password && state.errors.password.map((error: string) => (
+                                    <p key={error} className="mt-1 text-xs text-red-500">{error}</p>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Role */}
+                        <div>
+                            <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">Rol de Acceso</label>
+                            <select
+                                id="role"
+                                name="role"
+                                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none bg-white"
+                                defaultValue="EMPLOYEE"
+                            >
+                                <option value="EMPLOYEE">Empleado</option>
+                                <option value="CHEF">Jefe de Cocina</option>
+                                <option value="ADMIN">Administrador</option>
+                            </select>
                         </div>
                     </div>
-                </div>
 
-                {/* Email */}
-                <div className="mb-4">
-                    <label htmlFor="email" className="mb-2 block text-sm font-medium">
-                        Email
-                    </label>
-                    <div className="relative mt-2 rounded-md">
-                        <input
-                            id="email"
-                            name="email"
-                            type="email"
-                            placeholder="juan@cocina.com"
-                            className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                            aria-describedby="email-error"
-                        />
-                        <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                    {/* 2. Personal Info */}
+                    <div className="space-y-4">
+                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider border-b pb-1">Datos Personales</h4>
+                        <div className="grid grid-cols-2 gap-2">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                                <input name="firstName" className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Apellidos</label>
+                                <input name="lastName" className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none" />
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">DNI / NIE</label>
+                                <input name="dni" className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">F. Nacimiento</label>
+                                <input name="dob" type="date" className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none" />
+                            </div>
+                        </div>
                     </div>
-                    <div id="email-error" aria-live="polite" aria-atomic="true">
-                        {state.errors?.email &&
-                            state.errors.email.map((error: string) => (
-                                <p key={error} className="mt-2 text-sm text-red-500">
-                                    {error}
-                                </p>
-                            ))}
-                    </div>
-                </div>
 
-                {/* Password */}
-                <div className="mb-4">
-                    <label htmlFor="password" className="mb-2 block text-sm font-medium">
-                        Contraseña
-                    </label>
-                    <div className="relative mt-2 rounded-md">
-                        <input
-                            id="password"
-                            name="password"
-                            type="password"
-                            placeholder="******"
-                            className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                            aria-describedby="password-error"
-                        />
-                        <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                    {/* 3. Job Info */}
+                    <div className="space-y-4">
+                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider border-b pb-1">Ficha Técnica</h4>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Puesto / Cargo</label>
+                            <input
+                                name="jobTitle"
+                                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none"
+                                placeholder="Ej: Cocinero, Camarero..."
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Teléfono Contacto</label>
+                            <input name="phone" className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none" />
+                        </div>
                     </div>
-                    <div id="password-error" aria-live="polite" aria-atomic="true">
-                        {state.errors?.password &&
-                            state.errors.password.map((error: string) => (
-                                <p key={error} className="mt-2 text-sm text-red-500">
-                                    {error}
-                                </p>
-                            ))}
-                    </div>
-                </div>
 
-                {/* Role */}
-                <div className="mb-4">
-                    <label htmlFor="role" className="mb-2 block text-sm font-medium">
-                        Rol
-                    </label>
-                    <div className="relative">
-                        <select
-                            id="role"
-                            name="role"
-                            className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                            defaultValue="EMPLOYEE"
-                        >
-                            <option value="EMPLOYEE">Empleado</option>
-                            <option value="CHEF">Jefe de Cocina</option>
-                            <option value="ADMIN">Administrador</option>
-                        </select>
-                        <ShieldCheckIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-                    </div>
                 </div>
 
                 <div aria-live="polite" aria-atomic="true">
                     {state.message && (
-                        <p className="mt-2 text-sm text-red-500">{state.message}</p>
+                        <p className="mt-4 text-sm text-red-500">{state.message}</p>
                     )}
                 </div>
             </div>
+
             <div className="mt-6 flex justify-end gap-4">
                 <Link
                     href="/dashboard/employees"
@@ -129,9 +154,9 @@ export default function Form() {
                 </Link>
                 <button
                     type="submit"
-                    className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500"
+                    className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 shadow-sm"
                 >
-                    Guardar Empleado
+                    Guardar Ficha
                 </button>
             </div>
         </form>

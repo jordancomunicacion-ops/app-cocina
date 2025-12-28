@@ -30,6 +30,12 @@ export default async function EmployeesTable({
                                     Email
                                 </th>
                                 <th scope="col" className="px-3 py-5 font-medium">
+                                    Puesto
+                                </th>
+                                <th scope="col" className="px-3 py-5 font-medium">
+                                    Teléfono
+                                </th>
+                                <th scope="col" className="px-3 py-5 font-medium">
                                     Rol
                                 </th>
                                 <th scope="col" className="relative py-3 pl-6 pr-3">
@@ -50,6 +56,12 @@ export default async function EmployeesTable({
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
                                         {employee.email}
+                                    </td>
+                                    <td className="whitespace-nowrap px-3 py-3 text-gray-500">
+                                        {employee.jobTitle || '-'}
+                                    </td>
+                                    <td className="whitespace-nowrap px-3 py-3 text-gray-500">
+                                        {employee.phone || '-'}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
                                         <span

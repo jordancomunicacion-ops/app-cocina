@@ -1,6 +1,7 @@
 'use client';
 
-import { updateUser, UserFormState } from '@/app/lib/actions/employees';
+import { updateUser } from '@/app/lib/actions/employees';
+import { UserFormState } from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
     UserIcon,
@@ -11,102 +12,162 @@ import {
 import { useActionState } from 'react';
 import { User } from '@prisma/client';
 
-export default function EditForm({ user }: { user: User }) {
+export default function EditForm({ user }: { user: any }) {
+    // user: any used temporarily to avoid type errors if runtime types aren't fresh yet
     const initialState: UserFormState = { message: null, errors: {} };
     const updateUserWithId = updateUser.bind(null, user.id);
     const [state, formAction] = useActionState(updateUserWithId, initialState);
 
     return (
         <form action={formAction}>
-            <div className="rounded-md bg-gray-50 p-4 md:p-6">
-                {/* Name */}
-                <div className="mb-4">
-                    <label htmlFor="name" className="mb-2 block text-sm font-medium">
-                        Nombre del Empleado
-                    </label>
-                    <div className="relative mt-2 rounded-md">
-                        <input
-                            id="name"
-                            name="name"
-                            type="text"
-                            defaultValue={user.name}
-                            placeholder="Ej. Juan Pérez"
-                            className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
-                            aria-describedby="name-error"
-                        />
-                        <div id="name-error" aria-live="polite" aria-atomic="true">
-                            {state.errors?.name &&
-                                state.errors.name.map((error: string) => (
-                                    <p key={error} className="mt-2 text-sm text-red-500">
-                                        {error}
-                                    </p>
+            <div className="rounded-xl bg-white p-6 shadow-sm border border-gray-100">
+
+                {/* GRID LAYOUT */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    {/* 1. Account Info */}
+                    <div className="space-y-4">
+                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider border-b pb-1">Cuenta</h4>
+
+                        {/* Name (Username) */}
+                        <div>
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nombre de Usuario</label>
+                            <input
+                                id="name"
+                                name="name"
+                                type="text"
+                                defaultValue={user.name}
+                                placeholder="Ej. jperez"
+                                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none"
+                                aria-describedby="name-error"
+                            />
+                            <div id="name-error" aria-live="polite" aria-atomic="true">
+                                {state.errors?.name && state.errors.name.map((error: string) => (
+                                    <p key={error} className="mt-1 text-xs text-red-500">{error}</p>
                                 ))}
+                            </div>
+                        </div>
+
+                        {/* Email */}
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email (Acceso)</label>
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                defaultValue={user.email}
+                                placeholder="juan@cocina.com"
+                                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none"
+                            />
+                            <div id="email-error" aria-live="polite" aria-atomic="true">
+                                {state.errors?.email && state.errors.email.map((error: string) => (
+                                    <p key={error} className="mt-1 text-xs text-red-500">{error}</p>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Password */}
+                        <div>
+                            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Nueva Contraseña (Opcional)</label>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                placeholder="Dejar vacía para no cambiar"
+                                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none"
+                            />
+                        </div>
+
+                        {/* Role */}
+                        <div>
+                            <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">Rol de Acceso</label>
+                            <select
+                                id="role"
+                                name="role"
+                                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none bg-white"
+                                defaultValue={user.role}
+                            >
+                                <option value="EMPLOYEE">Empleado</option>
+                                <option value="CHEF">Jefe de Cocina</option>
+                                <option value="ADMIN">Administrador</option>
+                            </select>
                         </div>
                     </div>
-                </div>
 
-                {/* Email */}
-                <div className="mb-4">
-                    <label htmlFor="email" className="mb-2 block text-sm font-medium">
-                        Email
-                    </label>
-                    <div className="relative mt-2 rounded-md">
-                        <input
-                            id="email"
-                            name="email"
-                            type="email"
-                            defaultValue={user.email}
-                            placeholder="juan@cocina.com"
-                            className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                            aria-describedby="email-error"
-                        />
-                        <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                    {/* 2. Personal Info */}
+                    <div className="space-y-4">
+                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider border-b pb-1">Datos Personales</h4>
+                        <div className="grid grid-cols-2 gap-2">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                                <input
+                                    name="firstName"
+                                    defaultValue={user.firstName || ''}
+                                    className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Apellidos</label>
+                                <input
+                                    name="lastName"
+                                    defaultValue={user.lastName || ''}
+                                    className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none"
+                                />
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">DNI / NIE</label>
+                                <input
+                                    name="dni"
+                                    defaultValue={user.dni || ''}
+                                    className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">F. Nacimiento</label>
+                                {/* Format date to YYYY-MM-DD for input type=date */}
+                                <input
+                                    name="dob"
+                                    type="date"
+                                    defaultValue={user.dob ? new Date(user.dob).toISOString().split('T')[0] : ''}
+                                    className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none"
+                                />
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                {/* Password */}
-                <div className="mb-4">
-                    <label htmlFor="password" className="mb-2 block text-sm font-medium">
-                        Nueva Contraseña (Opcional)
-                    </label>
-                    <div className="relative mt-2 rounded-md">
-                        <input
-                            id="password"
-                            name="password"
-                            type="password"
-                            placeholder="Dejar vacía para no cambiar"
-                            className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                        />
-                        <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                    {/* 3. Job Info */}
+                    <div className="space-y-4">
+                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider border-b pb-1">Ficha Técnica</h4>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Puesto / Cargo</label>
+                            <input
+                                name="jobTitle"
+                                defaultValue={user.jobTitle || ''}
+                                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none"
+                                placeholder="Ej: Cocinero, Camarero..."
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Teléfono Contacto</label>
+                            <input
+                                name="phone"
+                                defaultValue={user.phone || ''}
+                                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none"
+                            />
+                        </div>
                     </div>
-                </div>
 
-                {/* Role */}
-                <div className="mb-4">
-                    <label htmlFor="role" className="mb-2 block text-sm font-medium">
-                        Rol
-                    </label>
-                    <div className="relative">
-                        <select
-                            id="role"
-                            name="role"
-                            className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                            defaultValue={user.role}
-                        >
-                            <option value="EMPLOYEE">Empleado</option>
-                            <option value="CHEF">Jefe de Cocina</option>
-                            <option value="ADMIN">Administrador</option>
-                        </select>
-                        <ShieldCheckIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-                    </div>
                 </div>
 
                 <div aria-live="polite" aria-atomic="true">
                     {state.message && (
-                        <p className="mt-2 text-sm text-red-500">{state.message}</p>
+                        <p className="mt-4 text-sm text-red-500">{state.message}</p>
                     )}
                 </div>
             </div>
+
             <div className="mt-6 flex justify-end gap-4">
                 <Link
                     href="/dashboard/employees"
@@ -116,7 +177,7 @@ export default function EditForm({ user }: { user: User }) {
                 </Link>
                 <button
                     type="submit"
-                    className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500"
+                    className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 shadow-sm"
                 >
                     Actualizar Empleado
                 </button>

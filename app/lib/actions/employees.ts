@@ -13,6 +13,12 @@ export async function createUser(prevState: UserFormState, formData: FormData) {
         email: formData.get('email'),
         password: formData.get('password'),
         role: formData.get('role'),
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        dni: formData.get('dni'),
+        phone: formData.get('phone'),
+        jobTitle: formData.get('jobTitle'),
+        dob: formData.get('dob'),
     });
 
     if (!validatedFields.success) {
@@ -22,7 +28,7 @@ export async function createUser(prevState: UserFormState, formData: FormData) {
         };
     }
 
-    const { name, email, password, role } = validatedFields.data;
+    const { name, email, password, role, firstName, lastName, dni, phone, jobTitle, dob } = validatedFields.data;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
@@ -32,6 +38,12 @@ export async function createUser(prevState: UserFormState, formData: FormData) {
                 email,
                 passwordHash: hashedPassword,
                 role,
+                firstName,
+                lastName,
+                dni,
+                phone,
+                jobTitle,
+                dob: dob ? new Date(dob) : undefined,
             },
         });
     } catch (error) {
@@ -54,8 +66,14 @@ export async function updateUser(
         id: id,
         name: formData.get('name'),
         email: formData.get('email'),
-        password: formData.get('password') || undefined, // Send undefined if empty to avoid update
+        password: formData.get('password') || undefined,
         role: formData.get('role'),
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        dni: formData.get('dni'),
+        phone: formData.get('phone'),
+        jobTitle: formData.get('jobTitle'),
+        dob: formData.get('dob'),
     });
 
     if (!validatedFields.success) {
@@ -65,12 +83,18 @@ export async function updateUser(
         };
     }
 
-    const { name, email, password, role } = validatedFields.data;
+    const { name, email, password, role, firstName, lastName, dni, phone, jobTitle, dob } = validatedFields.data;
 
     const dataToUpdate: any = {
         name,
         email,
-        role
+        role,
+        firstName,
+        lastName,
+        dni,
+        phone,
+        jobTitle,
+        dob: dob ? new Date(dob) : null,
     };
 
     if (password && password.trim() !== '') {

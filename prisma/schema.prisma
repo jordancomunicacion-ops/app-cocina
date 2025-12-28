@@ -18,6 +18,14 @@ model User {
   passwordHash    String
   role            String    @default("EMPLOYEE") // ADMIN, CHEF, EMPLOYEE
   
+  // Extended Profile Fields (Matches App Ganadera)
+  firstName       String?
+  lastName        String?
+  dni             String?
+  phone           String?
+  jobTitle        String?
+  dob             DateTime?
+  
   tasks           Task[]    @relation("AssignedTasks")
   auditLogs       AuditLog[]
 
