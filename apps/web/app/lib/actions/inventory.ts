@@ -4,7 +4,8 @@ import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { CreateIngredientSchema, UpdateIngredientSchema, IngredientFormState } from '@/app/lib/definitions';
+import { CreateIngredientSchema, UpdateIngredientSchema } from '@/app/lib/definitions';
+import type { IngredientFormState } from '@/app/lib/definitions';
 export type { IngredientFormState };
 
 // --- INGREDIENTS ---

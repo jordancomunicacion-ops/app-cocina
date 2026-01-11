@@ -4,7 +4,8 @@ import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { CreateRecipeSchema, UpdateRecipeSchema, RecipeFormState } from '@/app/lib/definitions';
+import { CreateRecipeSchema, UpdateRecipeSchema } from '@/app/lib/definitions';
+import type { RecipeFormState } from '@/app/lib/definitions';
 export type { RecipeFormState };
 
 // --- RECIPES ---

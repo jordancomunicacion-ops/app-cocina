@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RestaurantService = void 0;
 const common_1 = require("@nestjs/common");
 let RestaurantService = class RestaurantService {
-    ENGINE_URL = 'http://localhost:4001';
+    ENGINE_URL = 'http://localhost:4003';
     constructor() { }
     async callEngine(method, endpoint, body) {
         try {
@@ -81,18 +81,4 @@ exports.RestaurantService = RestaurantService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [])
 ], RestaurantService);
-return this.prisma.restaurantWaitlist.create({
-    data: {
-        restaurantId,
-        ...data
-    }
-});
-async;
-getWaitlist(restaurantId, string);
-{
-    return this.prisma.restaurantWaitlist.findMany({
-        where: { restaurantId, status: { in: ['WAITING', 'NOTIFIED'] } },
-        orderBy: { createdAt: 'asc' }
-    });
-}
 //# sourceMappingURL=restaurant.service.js.map
