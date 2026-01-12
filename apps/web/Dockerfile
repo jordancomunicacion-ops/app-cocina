@@ -25,8 +25,11 @@ COPY . .
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
-# Build with verbose output
-RUN set -ex; npm run build
+# Generate Prisma Client
+RUN npx prisma generate
+
+# Build
+RUN npm run build
 
 # Production image, copy all the files and run next
 FROM base AS runner
