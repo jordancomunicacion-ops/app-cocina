@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 // --- Core Hospitality Models ---
@@ -304,12 +304,20 @@ model Payment {
 }
 
 model User {
-  id          String   @id @default(uuid())
-  hotelId     String?
-  hotel       Hotel?   @relation(fields: [hotelId], references: [id])
-  email       String   @unique
-  password    String   
-  role        String   @default("ADMIN")
+  id              String    @id @default(uuid())
+  hotelId         String?
+  hotel           Hotel?    @relation(fields: [hotelId], references: [id])
+  email           String    @unique
+  passwordHash    String
+  role            String    @default("ADMIN")
+
+  // Extended Profile Fields (Matches App Ganadera)
+  firstName       String?
+  lastName        String?
+  dni             String?
+  phone           String?
+  jobTitle        String?
+  dob             DateTime?
 }
 
 // --- Restaurant Models (Preserved) ---
