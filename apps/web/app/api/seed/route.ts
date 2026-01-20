@@ -18,7 +18,7 @@ export async function GET() {
                 data: {
                     email,
                     name,
-                    passwordHash: hashedPassword,
+                    password: hashedPassword,
                     role: 'ADMIN',
                 },
             });

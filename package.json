@@ -2,8 +2,7 @@
     "name": "app-cocina-root",
     "private": true,
     "workspaces": [
-        "apps/*",
-        "packages/*"
+        "apps/*"
     ],
     "scripts": {
         "dev": "npm run dev --workspace=app-cocina",

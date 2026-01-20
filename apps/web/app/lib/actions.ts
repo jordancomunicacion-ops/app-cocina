@@ -8,7 +8,10 @@ export async function authenticate(
     formData: FormData,
 ) {
     try {
-        await signIn('credentials', formData);
+        await signIn('credentials', {
+            ...Object.fromEntries(formData),
+            redirectTo: '/dashboard',
+        });
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {
@@ -57,7 +60,7 @@ export async function registerUser(prevState: UserFormState | undefined, formDat
             data: {
                 name,
                 email,
-                passwordHash: hashedPassword,
+                password: hashedPassword,
                 role: role as 'EMPLOYEE' | 'ADMIN' | 'CHEF',
             },
         });

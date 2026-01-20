@@ -36,7 +36,7 @@ export async function createUser(prevState: UserFormState, formData: FormData) {
             data: {
                 name,
                 email,
-                passwordHash: hashedPassword,
+                password: hashedPassword,
                 role,
                 firstName,
                 lastName,
@@ -98,7 +98,7 @@ export async function updateUser(
     };
 
     if (password && password.trim() !== '') {
-        dataToUpdate.passwordHash = await bcrypt.hash(password, 10);
+        dataToUpdate.password = await bcrypt.hash(password, 10);
     }
 
     try {

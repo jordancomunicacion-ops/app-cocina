@@ -24,7 +24,7 @@ async function main() {
                 data: {
                     email,
                     name,
-                    passwordHash: hashedPassword,
+                    password: hashedPassword,
                     role: 'ADMIN', // Ensure this matches string type in schema since we removed enums
                 },
             });

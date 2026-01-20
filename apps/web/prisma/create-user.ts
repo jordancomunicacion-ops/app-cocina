@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 async function main() {
     const email = 'gerencia@sotodelprior.com'
-    const password = '1234'
+    const password = '123456'
     const name = 'Gerencia'
 
     console.log(`Creating user: ${email}...`)
@@ -15,13 +15,13 @@ async function main() {
     const user = await prisma.user.upsert({
         where: { email },
         update: {
-            passwordHash: hashedPassword,
+            password: hashedPassword,
             role: 'ADMIN' // Ensure admin access
         },
         create: {
             email,
             name,
-            passwordHash: hashedPassword,
+            password: hashedPassword,
             role: 'ADMIN',
         },
     })
