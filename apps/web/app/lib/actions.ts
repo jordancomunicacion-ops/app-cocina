@@ -13,7 +13,9 @@ export async function authenticate(
             redirectTo: '/dashboard',
         });
     } catch (error) {
+        console.error('Auth Error:', error);
         if (error instanceof AuthError) {
+            console.error('Auth Error Type:', error.type);
             switch (error.type) {
                 case 'CredentialsSignin':
                     return 'Invalid credentials.';

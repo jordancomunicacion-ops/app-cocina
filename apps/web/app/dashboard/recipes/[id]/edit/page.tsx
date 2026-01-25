@@ -7,14 +7,39 @@ import Link from 'next/link';
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
 
-    const [recipe, ingredients] = await Promise.all([
+    const [recipe, ingredients, categories, packaging, subRecipes] = await Promise.all([
         prisma.recipe.findUnique({
             where: { id },
-            include: { items: true },
+            include: {
+                items: true,
+                steps: true
+            },
         }),
         prisma.ingredient.findMany({
             orderBy: { name: 'asc' },
+            include: {
+                transformationOutputs: {
+                    include: {
+                        transformation: {
+                            include: {
+                                sourceProduct: true
+                            }
+                        }
+                    }
+                }
+            }
         }),
+        prisma.recipeCategory.findMany({ orderBy: { name: 'asc' } }),
+        prisma.recipePackaging.findMany({ orderBy: { name: 'asc' } }),
+        prisma.recipe.findMany({
+            where: {
+                category: {
+                    in: ['ELABORACION_INTERMEDIA', 'PRODUCTO_NO_ELABORADO']
+                },
+                id: { not: id } // Exclude self to avoid circular dependency
+            },
+            orderBy: { name: 'asc' }
+        })
     ]);
 
     if (!recipe) {
@@ -52,7 +77,13 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                 </nav>
             </div>
             <h1 className="my-8 text-2xl font-bold">Editar Receta</h1>
-            <Form recipe={recipe} ingredients={ingredients} />
+            <Form
+                recipe={recipe}
+                ingredients={ingredients}
+                categories={categories}
+                packaging={packaging}
+                availableSubRecipes={subRecipes}
+            />
         </main>
     );
 }

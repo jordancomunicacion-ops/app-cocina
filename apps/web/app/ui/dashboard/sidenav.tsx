@@ -1,13 +1,22 @@
 'use client';
 
+// This component needs to be async to fetch data, but it was a 'use client' component before due to hooks.
+// We need to split it or make it a Server Component and pass props to a Client Component part if needed.
+// OR, we can fetch data in Layout and pass it down. 
+// BUT, SideNav is imported in Layout. Layout is async.
+// Let's modify Layout to fetch AppConfig and pass it to SideNav.
+// SideNav is 'use client' so it can accept props.
+// Wait, SideNav already accepts `user`.
+// So I should modify `layout.tsx` to fetch AppConfig and pass `logoUrl` to `SideNav`.
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { links } from './nav-links';
-import { PowerIcon } from '@heroicons/react/24/outline';
+import { PowerIcon, UserIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import { signOutAction } from '@/app/lib/actions';
 
-export default function SideNav({ user }: { user?: any }) {
+export default function SideNav({ user, logoUrl }: { user?: any, logoUrl?: string | null }) {
     const pathname = usePathname();
 
     // Filter links based on role
@@ -22,7 +31,7 @@ export default function SideNav({ user }: { user?: any }) {
         <aside className="w-64 bg-white border-r border-gray-200 h-screen flex flex-col fixed left-0 top-0 z-30 shadow-sm">
             {/* LOGO */}
             <div className="p-4 flex justify-center border-b border-gray-100">
-                <img src="/logo-text.png" alt="SOTO DEL PRIOR" className="h-12" />
+                <img src={logoUrl || "/logo-text.png"} alt="SOTO DEL PRIOR" className="h-12 object-contain" />
             </div>
 
             {/* PROFILE */}
@@ -61,13 +70,16 @@ export default function SideNav({ user }: { user?: any }) {
 
             {/* FOOTER */}
             <div className="p-4 border-t border-gray-100 space-y-2">
-                <button className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50">
-                    <PowerIcon className="w-5" />
+                <Link
+                    href="/dashboard/profile"
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50"
+                >
+                    <UserIcon className="w-5" />
                     <span>Mi Perfil</span>
-                </button>
+                </Link>
                 <form action={signOutAction}>
                     <button className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:text-red-700 rounded-lg hover:bg-red-50">
-                        <PowerIcon className="w-5" />
+                        <ArrowRightOnRectangleIcon className="w-5" />
                         <span>Cerrar Sesión</span>
                     </button>
                 </form>

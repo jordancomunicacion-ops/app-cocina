@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { CreateRecipeSchema, UpdateRecipeSchema } from '@/app/lib/definitions';
 import type { RecipeFormState } from '@/app/lib/definitions';
+export type { RecipeFormState };
 
 // --- RECIPES ---
 
@@ -18,12 +19,22 @@ export async function createRecipe(prevState: RecipeFormState, formData: FormDat
     const itemsJson = formData.get('items') as string;
     const itemsRaw = itemsJson ? JSON.parse(itemsJson) : [];
 
+    const stepsJson = formData.get('steps') as string;
+    const stepsRaw = stepsJson ? JSON.parse(stepsJson) : [];
+
     const validatedFields = CreateRecipeSchema.safeParse({
         name: formData.get('name'),
+        category: formData.get('category'), // New fixed enum
+        classification: formData.get('classification'), // Old 'category' (free text)
+        packaging: formData.get('packaging'),
+        portions: formData.get('portions'),
+        prepTime: formData.get('prepTime'),
+        cookTime: formData.get('cookTime'),
         yieldQuantity: formData.get('yieldQuantity'),
         yieldUnit: formData.get('yieldUnit'),
         instructions: formData.get('instructions'),
         items: itemsRaw,
+        steps: stepsRaw,
     });
 
     if (!validatedFields.success) {
@@ -33,12 +44,21 @@ export async function createRecipe(prevState: RecipeFormState, formData: FormDat
         };
     }
 
-    const { name, yieldQuantity, yieldUnit, instructions, items } = validatedFields.data;
+    const {
+        name, category, classification, packaging, portions, prepTime, cookTime,
+        yieldQuantity, yieldUnit, instructions, items, steps
+    } = validatedFields.data;
 
     try {
         await prisma.recipe.create({
             data: {
                 name,
+                category: category as any,
+                classification,
+                packaging,
+                portions,
+                prepTime,
+                cookTime,
                 yieldQuantity,
                 yieldUnit: yieldUnit as any,
                 instructions,
@@ -47,8 +67,18 @@ export async function createRecipe(prevState: RecipeFormState, formData: FormDat
                         type: item.type,
                         ingredientId: item.ingredientId || undefined,
                         subRecipeId: item.subRecipeId || undefined,
+                        sourceProductId: item.sourceProductId || undefined,
                         quantityGross: item.quantityGross,
                         unit: item.unit
+                    }))
+                },
+                steps: {
+                    create: steps?.map(step => ({
+                        order: step.order,
+                        description: step.description,
+                        action: step.action || null,
+                        subAction: step.subAction || null,
+                        ingredientId: step.ingredientId || null
                     }))
                 }
             },
@@ -72,13 +102,23 @@ export async function updateRecipe(
     const itemsJson = formData.get('items') as string;
     const itemsRaw = itemsJson ? JSON.parse(itemsJson) : [];
 
+    const stepsJson = formData.get('steps') as string;
+    const stepsRaw = stepsJson ? JSON.parse(stepsJson) : [];
+
     const validatedFields = UpdateRecipeSchema.safeParse({
         id: id,
         name: formData.get('name'),
+        category: formData.get('category'),
+        classification: formData.get('classification'),
+        packaging: formData.get('packaging'),
+        portions: formData.get('portions'),
+        prepTime: formData.get('prepTime'),
+        cookTime: formData.get('cookTime'),
         yieldQuantity: formData.get('yieldQuantity'),
         yieldUnit: formData.get('yieldUnit'),
         instructions: formData.get('instructions'),
         items: itemsRaw,
+        steps: stepsRaw,
     });
 
     if (!validatedFields.success) {
@@ -88,10 +128,13 @@ export async function updateRecipe(
         };
     }
 
-    const { name, yieldQuantity, yieldUnit, instructions, items } = validatedFields.data;
+    const {
+        name, category, classification, packaging, portions, prepTime, cookTime,
+        yieldQuantity, yieldUnit, instructions, items, steps
+    } = validatedFields.data;
 
     try {
-        // Transactional update: Delete old items and create new ones is simplest for MVP
+        // Transactional update: Delete old items/steps and create new ones is simplest for MVP
         // Better strategy: upsert/delete difference.
         await prisma.$transaction(async (tx) => {
             // Update basic info
@@ -99,6 +142,12 @@ export async function updateRecipe(
                 where: { id },
                 data: {
                     name,
+                    category: category as any,
+                    classification,
+                    packaging,
+                    portions,
+                    prepTime,
+                    cookTime,
                     yieldQuantity,
                     yieldUnit: yieldUnit as any,
                     instructions,
@@ -110,6 +159,11 @@ export async function updateRecipe(
                 where: { recipeId: id }
             });
 
+            // Delete existing steps
+            await tx.recipeStep.deleteMany({
+                where: { recipeId: id }
+            });
+
             // Create new items
             if (items && items.length > 0) {
                 await tx.recipeItem.createMany({
@@ -118,8 +172,23 @@ export async function updateRecipe(
                         type: item.type,
                         ingredientId: item.ingredientId || null,
                         subRecipeId: item.subRecipeId || null,
+                        sourceProductId: item.sourceProductId || null,
                         quantityGross: item.quantityGross,
                         unit: item.unit
+                    }))
+                });
+            }
+
+            // Create new steps
+            if (steps && steps.length > 0) {
+                await tx.recipeStep.createMany({
+                    data: steps.map(step => ({
+                        recipeId: id,
+                        order: step.order,
+                        description: step.description,
+                        action: step.action || null,
+                        subAction: step.subAction || null,
+                        ingredientId: step.ingredientId || null
                     }))
                 });
             }

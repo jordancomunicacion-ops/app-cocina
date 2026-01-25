@@ -1,0 +1,42 @@
+import { prisma } from '@/lib/prisma';
+import TransformationForm from '@/app/ui/transformations/create-form';
+import { notFound } from 'next/navigation';
+
+export default async function Page({ params }: { params: { id: string } }) {
+    const { id } = await params;
+
+    const [product, ingredients] = await Promise.all([
+        prisma.supplierProduct.findUnique({
+            where: { id },
+        }),
+        prisma.ingredient.findMany({
+            orderBy: { name: 'asc' },
+            include: {
+                transformationOutputs: {
+                    include: {
+                        transformation: {
+                            include: {
+                                sourceProduct: true
+                            }
+                        }
+                    }
+                }
+            }
+        }),
+    ]);
+
+    if (!product) {
+        notFound();
+    }
+
+    return (
+        <main>
+            <div className="mb-6">
+                <h1 className="text-2xl font-bold">Elaboración intermedia</h1>
+                <p className="text-gray-600">Definiendo reglas para: <span className="font-semibold">{product.name}</span></p>
+            </div>
+
+            <TransformationForm product={product} ingredients={ingredients} />
+        </main>
+    );
+}

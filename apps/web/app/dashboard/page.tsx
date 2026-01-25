@@ -1,3 +1,5 @@
+import DashboardAlerts from '@/app/ui/dashboard/alerts';
+
 export default async function Page() {
     return (
         <main>
@@ -22,6 +24,7 @@ export default async function Page() {
                         0
                     </p>
                 </div>
+                <DashboardAlerts />
             </div>
             <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
                 {/* Recent Events or Gantt Chart placeholder */}

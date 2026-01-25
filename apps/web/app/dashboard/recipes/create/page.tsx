@@ -4,9 +4,33 @@ import { HomeIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 export default async function Page() {
-    const ingredients = await prisma.ingredient.findMany({
-        orderBy: { name: 'asc' },
-    });
+    const [ingredients, categories, packaging, subRecipes] = await Promise.all([
+        prisma.ingredient.findMany({
+            orderBy: { name: 'asc' },
+            include: {
+                transformationOutputs: {
+                    include: {
+                        transformation: {
+                            include: {
+                                sourceProduct: true
+                            }
+                        }
+                    }
+                }
+            }
+        }),
+        prisma.recipeCategory.findMany({ orderBy: { name: 'asc' } }),
+        prisma.recipeCategory.findMany({ orderBy: { name: 'asc' } }),
+        prisma.recipePackaging.findMany({ orderBy: { name: 'asc' } }),
+        prisma.recipe.findMany({
+            where: {
+                category: {
+                    in: ['ELABORACION_INTERMEDIA', 'PRODUCTO_NO_ELABORADO']
+                }
+            },
+            orderBy: { name: 'asc' }
+        })
+    ]);
 
     return (
         <main>
@@ -39,7 +63,12 @@ export default async function Page() {
                 </nav>
             </div>
             <h1 className="my-8 text-2xl font-bold">Crear Nueva Receta</h1>
-            <Form ingredients={ingredients} />
+            <Form
+                ingredients={ingredients}
+                categories={categories}
+                packaging={packaging}
+                availableSubRecipes={subRecipes}
+            />
         </main>
     );
 }

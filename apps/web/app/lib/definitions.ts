@@ -37,18 +37,52 @@ export const RecipeItemSchema = z.object({
     id: z.string().optional(),
     ingredientId: z.string().optional().nullable(),
     subRecipeId: z.string().optional().nullable(),
+    sourceProductId: z.string().optional().nullable(), // Provider/Brand selection
     type: z.enum(['INGREDIENT', 'SUB_RECIPE']),
     quantityGross: z.coerce.number().gt(0, { message: 'La cantidad debe ser mayor a 0.' }),
     unit: z.enum(['KG', 'G', 'L', 'ML', 'UD']),
 });
 
+export const RecipeStepSchema = z.object({
+    id: z.string().optional(),
+    order: z.coerce.number(),
+    description: z.string().min(1, { message: 'La descripción es obligatoria.' }),
+    action: z.string().optional(),
+    subAction: z.string().optional(),
+    ingredientId: z.string().optional().nullable(),
+});
+
 export const RecipeSchema = z.object({
     id: z.string(),
     name: z.string().min(1, { message: 'El nombre es obligatorio.' }),
+
+    // Technical sheet fields
+
+    // Technical sheet fields
+    // Technical sheet fields
+    category: z.enum(['PRODUCTO_NO_ELABORADO', 'ELABORACION_INTERMEDIA', 'ELABORACION_FINAL']), // New fixed category
+    classification: z.string().optional(), // Old "category"
+    packaging: z.string().optional(),
+    portions: z.preprocess(
+        (val) => (val === '' ? null : Number(val)),
+        z.number().min(1, { message: 'Debe ser mayor a 0' }).optional().nullable()
+    ),
+    prepTime: z.preprocess(
+        (val) => (val === '' ? null : Number(val)),
+        z.number().min(0).optional().nullable()
+    ),
+    cookTime: z.preprocess(
+        (val) => (val === '' ? null : Number(val)),
+        z.number().min(0).optional().nullable()
+    ),
+
+
     yieldQuantity: z.coerce.number().gt(0, { message: 'El rendimiento debe ser mayor a 0.' }),
     yieldUnit: z.enum(['KG', 'G', 'L', 'ML', 'UD']).optional(),
-    instructions: z.string().optional(),
+    instructions: z.string().optional(), // Keeping for backward compatibility or simple notes
+
     items: z.array(RecipeItemSchema).optional(),
+    steps: z.array(RecipeStepSchema).optional(),
 });
 
 export const CreateRecipeSchema = RecipeSchema.omit({ id: true });
@@ -57,10 +91,17 @@ export const UpdateRecipeSchema = RecipeSchema;
 export type RecipeFormState = {
     errors?: {
         name?: string[];
+        category?: string[];
+        classification?: string[];
+        packaging?: string[];
+        portions?: string[];
+        prepTime?: string[];
+        cookTime?: string[];
         yieldQuantity?: string[];
         yieldUnit?: string[];
         instructions?: string[];
         items?: string[];
+        steps?: string[];
     };
     message?: string | null;
 };
