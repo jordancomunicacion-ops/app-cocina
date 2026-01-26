@@ -1,0 +1,65 @@
+{
+  "node": {
+    "007ee69180cc5dfd929eff6368f4b57b396a0cb651": {
+      "workers": {
+        "app/dashboard/events/page": {
+          "moduleId": 91432,
+          "async": true,
+          "exportedName": "signOutAction",
+          "filename": "apps/web/app/lib/actions.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/events/page": "action-browser"
+      },
+      "exportedName": "signOutAction",
+      "filename": "apps/web/app/lib/actions.ts"
+    },
+    "403b3e791dd3c7d14b89bf118c20c83a912b48adf3": {
+      "workers": {
+        "app/dashboard/events/page": {
+          "moduleId": 91432,
+          "async": true,
+          "exportedName": "deleteEvent",
+          "filename": "apps/web/app/lib/actions/events.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/events/page": "rsc"
+      },
+      "exportedName": "deleteEvent",
+      "filename": "apps/web/app/lib/actions/events.ts"
+    },
+    "6028bef2b1b3efe2bbd252211555ab41a087daf972": {
+      "workers": {
+        "app/dashboard/events/page": {
+          "moduleId": 91432,
+          "async": true,
+          "exportedName": "createEvent",
+          "filename": "apps/web/app/lib/actions/events.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/events/page": "rsc"
+      },
+      "exportedName": "createEvent",
+      "filename": "apps/web/app/lib/actions/events.ts"
+    },
+    "70ea47a0c533d7f65de3e61c4f63d3b592b14cd182": {
+      "workers": {
+        "app/dashboard/events/page": {
+          "moduleId": 91432,
+          "async": true,
+          "exportedName": "updateEvent",
+          "filename": "apps/web/app/lib/actions/events.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/events/page": "rsc"
+      },
+      "exportedName": "updateEvent",
+      "filename": "apps/web/app/lib/actions/events.ts"
+    }
+  },
+  "edge": {}
+}

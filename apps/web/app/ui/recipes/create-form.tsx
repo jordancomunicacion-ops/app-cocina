@@ -1,6 +1,7 @@
 'use client';
 
-import { createRecipe, RecipeFormState } from '@/app/lib/actions/recipes';
+import { createRecipe } from '@/app/lib/actions/recipes';
+import type { RecipeFormState } from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
     UserCircleIcon,

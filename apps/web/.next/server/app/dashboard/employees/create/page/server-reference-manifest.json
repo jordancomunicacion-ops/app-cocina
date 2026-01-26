@@ -1,0 +1,35 @@
+{
+  "node": {
+    "007ee69180cc5dfd929eff6368f4b57b396a0cb651": {
+      "workers": {
+        "app/dashboard/employees/create/page": {
+          "moduleId": 4390,
+          "async": true,
+          "exportedName": "signOutAction",
+          "filename": "apps/web/app/lib/actions.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/employees/create/page": "action-browser"
+      },
+      "exportedName": "signOutAction",
+      "filename": "apps/web/app/lib/actions.ts"
+    },
+    "60269e0ece9997df363f8eb514772ca284e6b27f8b": {
+      "workers": {
+        "app/dashboard/employees/create/page": {
+          "moduleId": 4390,
+          "async": true,
+          "exportedName": "createUser",
+          "filename": "apps/web/app/lib/actions/employees.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/employees/create/page": "action-browser"
+      },
+      "exportedName": "createUser",
+      "filename": "apps/web/app/lib/actions/employees.ts"
+    }
+  },
+  "edge": {}
+}

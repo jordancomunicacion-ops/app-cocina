@@ -1,0 +1,35 @@
+{
+  "node": {
+    "007ee69180cc5dfd929eff6368f4b57b396a0cb651": {
+      "workers": {
+        "app/dashboard/inventory/create/page": {
+          "moduleId": 40228,
+          "async": true,
+          "exportedName": "signOutAction",
+          "filename": "apps/web/app/lib/actions.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/inventory/create/page": "action-browser"
+      },
+      "exportedName": "signOutAction",
+      "filename": "apps/web/app/lib/actions.ts"
+    },
+    "60fe30ae1913ee7fac1535f9eeda95366ad4523498": {
+      "workers": {
+        "app/dashboard/inventory/create/page": {
+          "moduleId": 40228,
+          "async": true,
+          "exportedName": "createIngredient",
+          "filename": "apps/web/app/lib/actions/inventory.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/inventory/create/page": "action-browser"
+      },
+      "exportedName": "createIngredient",
+      "filename": "apps/web/app/lib/actions/inventory.ts"
+    }
+  },
+  "edge": {}
+}

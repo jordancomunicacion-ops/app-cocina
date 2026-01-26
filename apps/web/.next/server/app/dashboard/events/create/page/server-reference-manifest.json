@@ -1,0 +1,35 @@
+{
+  "node": {
+    "007ee69180cc5dfd929eff6368f4b57b396a0cb651": {
+      "workers": {
+        "app/dashboard/events/create/page": {
+          "moduleId": 29072,
+          "async": true,
+          "exportedName": "signOutAction",
+          "filename": "apps/web/app/lib/actions.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/events/create/page": "action-browser"
+      },
+      "exportedName": "signOutAction",
+      "filename": "apps/web/app/lib/actions.ts"
+    },
+    "6028bef2b1b3efe2bbd252211555ab41a087daf972": {
+      "workers": {
+        "app/dashboard/events/create/page": {
+          "moduleId": 29072,
+          "async": true,
+          "exportedName": "createEvent",
+          "filename": "apps/web/app/lib/actions/events.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/events/create/page": "action-browser"
+      },
+      "exportedName": "createEvent",
+      "filename": "apps/web/app/lib/actions/events.ts"
+    }
+  },
+  "edge": {}
+}

@@ -642,3 +642,7 @@ To configure the body size limit for Server Actions, see: https://nextjs.org/doc
 To configure the body size limit for Server Actions, see: https://nextjs.org/docs/app/api-reference/next-config-js/serverActions#bodysizelimit
 [01:26:51.755] Server  ERROR   ⨯ Error: Body exceeded 1 MB limit.
 To configure the body size limit for Server Actions, see: https://nextjs.org/docs/app/api-reference/next-config-js/serverActions#bodysizelimit
+[01:40:12.600] Browser ERROR   {"digest":"3404072782@E394","environmentName":"Server","name":"Error"}
+[01:40:13.325] Server  WARN    [auth][warn][debug-enabled] "Read more: https://warnings.authjs.dev"
+[01:40:13.419] Server  LOG     prisma:query "SELECT \"public\".\"AppConfig\".\"id\", \"public\".\"AppConfig\".\"logoUrl\", \"public\".\"AppConfig\".\"updatedAt\" FROM \"public\".\"AppConfig\" WHERE (\"public\".\"AppConfig\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[01:40:13.422] Server  LOG     prisma:query "SELECT \"public\".\"AppConfig\".\"id\", \"public\".\"AppConfig\".\"logoUrl\", \"public\".\"AppConfig\".\"updatedAt\" FROM \"public\".\"AppConfig\" WHERE (\"public\".\"AppConfig\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"

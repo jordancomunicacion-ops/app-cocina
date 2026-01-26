@@ -1,0 +1,35 @@
+{
+  "node": {
+    "007ee69180cc5dfd929eff6368f4b57b396a0cb651": {
+      "workers": {
+        "app/dashboard/tasks/page": {
+          "moduleId": 38390,
+          "async": true,
+          "exportedName": "signOutAction",
+          "filename": "apps/web/app/lib/actions.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/tasks/page": "action-browser"
+      },
+      "exportedName": "signOutAction",
+      "filename": "apps/web/app/lib/actions.ts"
+    },
+    "605f3696b6a0793e9049f31e8cfedab8fb2c79b67d": {
+      "workers": {
+        "app/dashboard/tasks/page": {
+          "moduleId": 38390,
+          "async": true,
+          "exportedName": "updateTaskStatus",
+          "filename": "apps/web/app/lib/actions/tasks.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/tasks/page": "action-browser"
+      },
+      "exportedName": "updateTaskStatus",
+      "filename": "apps/web/app/lib/actions/tasks.ts"
+    }
+  },
+  "edge": {}
+}

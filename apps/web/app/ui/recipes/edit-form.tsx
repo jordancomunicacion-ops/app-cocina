@@ -1,6 +1,7 @@
 'use client';
 
-import { updateRecipe, RecipeFormState } from '@/app/lib/actions/recipes';
+import { updateRecipe } from '@/app/lib/actions/recipes';
+import type { RecipeFormState } from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
     PlusIcon,

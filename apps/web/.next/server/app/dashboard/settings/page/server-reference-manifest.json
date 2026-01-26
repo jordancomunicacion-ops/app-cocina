@@ -1,0 +1,140 @@
+{
+  "node": {
+    "007ee69180cc5dfd929eff6368f4b57b396a0cb651": {
+      "workers": {
+        "app/dashboard/settings/page": {
+          "moduleId": 77430,
+          "async": true,
+          "exportedName": "signOutAction",
+          "filename": "apps/web/app/lib/actions.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/settings/page": "action-browser"
+      },
+      "exportedName": "signOutAction",
+      "filename": "apps/web/app/lib/actions.ts"
+    },
+    "0099b3c07a6110f09cff517c0534184c8aeb916f87": {
+      "workers": {
+        "app/dashboard/settings/page": {
+          "moduleId": 77430,
+          "async": true,
+          "exportedName": "fetchPackaging",
+          "filename": "apps/web/app/lib/actions/settings.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/settings/page": "rsc"
+      },
+      "exportedName": "fetchPackaging",
+      "filename": "apps/web/app/lib/actions/settings.ts"
+    },
+    "00fda73a4157b6d52c4112d7f9001edcf3680f59bf": {
+      "workers": {
+        "app/dashboard/settings/page": {
+          "moduleId": 77430,
+          "async": true,
+          "exportedName": "fetchCategories",
+          "filename": "apps/web/app/lib/actions/settings.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/settings/page": "rsc"
+      },
+      "exportedName": "fetchCategories",
+      "filename": "apps/web/app/lib/actions/settings.ts"
+    },
+    "404e9aa237bfaa1c902d052053b78dbae258aedce6": {
+      "workers": {
+        "app/dashboard/settings/page": {
+          "moduleId": 77430,
+          "async": true,
+          "exportedName": "updateProfileImage",
+          "filename": "apps/web/app/lib/actions/settings.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/settings/page": "rsc"
+      },
+      "exportedName": "updateProfileImage",
+      "filename": "apps/web/app/lib/actions/settings.ts"
+    },
+    "40a3b9a2f61c8584261559c7f3c9647c55d1d38abe": {
+      "workers": {
+        "app/dashboard/settings/page": {
+          "moduleId": 77430,
+          "async": true,
+          "exportedName": "deletePackaging",
+          "filename": "apps/web/app/lib/actions/settings.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/settings/page": "action-browser"
+      },
+      "exportedName": "deletePackaging",
+      "filename": "apps/web/app/lib/actions/settings.ts"
+    },
+    "40b5ec606dadd81bccf8a8dbc17f166a773179ab91": {
+      "workers": {
+        "app/dashboard/settings/page": {
+          "moduleId": 77430,
+          "async": true,
+          "exportedName": "deleteCategory",
+          "filename": "apps/web/app/lib/actions/settings.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/settings/page": "action-browser"
+      },
+      "exportedName": "deleteCategory",
+      "filename": "apps/web/app/lib/actions/settings.ts"
+    },
+    "40dc9989f36939aabed70c6c2aade45aabe811ce84": {
+      "workers": {
+        "app/dashboard/settings/page": {
+          "moduleId": 77430,
+          "async": true,
+          "exportedName": "updateAppLogo",
+          "filename": "apps/web/app/lib/actions/settings.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/settings/page": "rsc"
+      },
+      "exportedName": "updateAppLogo",
+      "filename": "apps/web/app/lib/actions/settings.ts"
+    },
+    "600eca4aada408c9eb6b461f06c64d529daa06496d": {
+      "workers": {
+        "app/dashboard/settings/page": {
+          "moduleId": 77430,
+          "async": true,
+          "exportedName": "createCategory",
+          "filename": "apps/web/app/lib/actions/settings.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/settings/page": "action-browser"
+      },
+      "exportedName": "createCategory",
+      "filename": "apps/web/app/lib/actions/settings.ts"
+    },
+    "608ea7852674dfc3151bd8e7396758508c2f77df01": {
+      "workers": {
+        "app/dashboard/settings/page": {
+          "moduleId": 77430,
+          "async": true,
+          "exportedName": "createPackaging",
+          "filename": "apps/web/app/lib/actions/settings.ts"
+        }
+      },
+      "layer": {
+        "app/dashboard/settings/page": "action-browser"
+      },
+      "exportedName": "createPackaging",
+      "filename": "apps/web/app/lib/actions/settings.ts"
+    }
+  },
+  "edge": {}
+}
