@@ -1,7 +1,4 @@
 {
-  "/dashboard/recipes/page": "app/dashboard/recipes/page.js",
-  "/dashboard/recipes/create/page": "app/dashboard/recipes/create/page.js",
-  "/dashboard/tasks/page": "app/dashboard/tasks/page.js",
-  "/dashboard/settings/page": "app/dashboard/settings/page.js",
-  "/dashboard/profile/page": "app/dashboard/profile/page.js"
+  "/dashboard/products/page": "app/dashboard/products/page.js",
+  "/dashboard/recipes/page": "app/dashboard/recipes/page.js"
 }

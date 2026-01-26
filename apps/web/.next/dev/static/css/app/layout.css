@@ -1293,16 +1293,6 @@
       color: var(--color-gray-500);
     }
   }
-  .placeholder\:text-gray-700 {
-    &::placeholder {
-      color: var(--color-gray-700);
-    }
-  }
-  .placeholder\:text-gray-900 {
-    &::placeholder {
-      color: var(--color-gray-900);
-    }
-  }
   .last\:border-0 {
     &:last-child {
       border-style: var(--tw-border-style);
