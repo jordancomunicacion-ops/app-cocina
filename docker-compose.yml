@@ -32,6 +32,7 @@ services:
       retries: 5
 
   cocina-web:
+    image: cocina-web:latest
     build:
       context: ./apps/web
       dockerfile: Dockerfile
@@ -40,7 +41,7 @@ services:
     environment:
       AUTH_TRUST_HOST: "true"
       NODE_TLS_REJECT_UNAUTHORIZED: "0"
-      AUTH_URL: "${AUTH_URL:-http://localhost:3010}"
+      AUTH_URL: "${AUTH_URL:-https://cocina.sotodelprior.com}"
       DATABASE_URL: postgresql://${DB_USER:-cocina_user}:${DB_PASS:-cocina_pass}@cocina-db:5432/${DB_NAME:-cocina}
       AUTH_SECRET: "${AUTH_SECRET:-supersecretkey123}" # Mandatory for NextAuth v5
     networks:

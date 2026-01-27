@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth';
+import NextAuth, { CredentialsSignin } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
 import bcrypt from 'bcryptjs';
@@ -7,7 +7,7 @@ import { authConfig } from './auth.config';
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
     ...authConfig,
-    debug: true,
+    trustHost: true,
     providers: [
         Credentials({
             async authorize(credentials) {
@@ -17,21 +17,25 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
 
                 if (parsedCredentials.success) {
                     const { email, password } = parsedCredentials.data;
-                    const user = await prisma.user.findUnique({ where: { email } });
-                    if (!user) return null;
+                    try {
+                        const user = await prisma.user.findUnique({ where: { email } });
+                        if (!user) return null;
 
-                    const passwordsMatch = await bcrypt.compare(password, user.password);
-                    if (passwordsMatch) {
-                        return {
-                            id: user.id,
-                            name: user.name,
-                            email: user.email,
-                            role: user.role,
-                        } as any;
+                        const passwordsMatch = await bcrypt.compare(password, user.password);
+                        if (passwordsMatch) {
+                            return {
+                                id: user.id,
+                                name: user.name,
+                                email: user.email,
+                                role: user.role,
+                            } as any;
+                        }
+                        throw new CredentialsSignin();
+                    } catch (error) {
+                        throw error;
                     }
                 }
-                console.log('Invalid credentials');
-                return null;
+                throw new CredentialsSignin();
             },
         }),
     ],

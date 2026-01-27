@@ -13,17 +13,23 @@ export async function authenticate(
             redirectTo: '/dashboard',
         });
     } catch (error) {
-        console.error('Auth Error:', error);
+        // Handle Next.js Redirect
+        if ((error as Error).message === 'NEXT_REDIRECT') {
+            throw error;
+        }
+
         if (error instanceof AuthError) {
-            console.error('Auth Error Type:', error.type);
             switch (error.type) {
                 case 'CredentialsSignin':
-                    return 'Invalid credentials.';
+                    return 'Credenciales inválidas.';
+                case 'CallbackRouteError':
+                    return 'Credenciales inválidas.';
                 default:
-                    return 'Something went wrong.';
+                    return 'Algo salió mal.';
             }
         }
-        throw error;
+        console.error('Auth Error:', error);
+        return 'Algo salió mal.';
     }
 }
 

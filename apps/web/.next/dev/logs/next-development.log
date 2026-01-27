@@ -1,15 +1,5 @@
-[00:00:02.426] Server  WARN    ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
-[00:00:02.770] Server  LOG     ✓ Ready in 2.3s
-[00:13:54.047] Server  LOG     ○ Compiling /dashboard/products ...
-[00:13:55.699] Server  WARN    [auth][warn][debug-enabled] "Read more: https://warnings.authjs.dev"
-[00:13:55.754] Server  LOG     prisma:query "SELECT \"public\".\"SupplierProduct\".\"id\", \"public\".\"SupplierProduct\".\"name\", \"public\".\"SupplierProduct\".\"supplier\", \"public\".\"SupplierProduct\".\"price\", \"public\".\"SupplierProduct\".\"unit\", \"public\".\"SupplierProduct\".\"sapiensWorld\", \"public\".\"SupplierProduct\".\"createdAt\", \"public\".\"SupplierProduct\".\"updatedAt\" FROM \"public\".\"SupplierProduct\" WHERE 1=1 ORDER BY \"public\".\"SupplierProduct\".\"name\" ASC OFFSET $1"
-[00:13:55.816] Server  LOG     prisma:query "SELECT \"public\".\"AppConfig\".\"id\", \"public\".\"AppConfig\".\"logoUrl\", \"public\".\"AppConfig\".\"updatedAt\" FROM \"public\".\"AppConfig\" WHERE (\"public\".\"AppConfig\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
-[00:13:57.206] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:14:06.299] Server  LOG     prisma:query "SELECT \"public\".\"Recipe\".\"id\", \"public\".\"Recipe\".\"name\", \"public\".\"Recipe\".\"version\", \"public\".\"Recipe\".\"yieldQuantity\", \"public\".\"Recipe\".\"yieldUnit\", \"public\".\"Recipe\".\"instructions\", \"public\".\"Recipe\".\"isSubRecipe\", \"public\".\"Recipe\".\"category\", \"public\".\"Recipe\".\"classification\", \"public\".\"Recipe\".\"packaging\", \"public\".\"Recipe\".\"portions\", \"public\".\"Recipe\".\"prepTime\", \"public\".\"Recipe\".\"cookTime\", \"public\".\"Recipe\".\"createdAt\", \"public\".\"Recipe\".\"updatedAt\" FROM \"public\".\"Recipe\" WHERE \"public\".\"Recipe\".\"name\"::text LIKE $1 ORDER BY \"public\".\"Recipe\".\"name\" ASC OFFSET $2"
-[00:14:06.303] Server  LOG     prisma:error "\nInvalid `prisma.recipe.findMany()` invocation:\n\n\nThe column `Recipe.classification` does not exist in the current database."
-[00:14:06.328] Server  ERROR   ⨯ PrismaClientKnownRequestError: 
-Invalid `prisma.recipe.findMany()` invocation:
-
-
-The column `Recipe.classification` does not exist in the current database.
-[00:39:41.802] Server  LOG     prisma:error "Error in PostgreSQL connection: Error { kind: Db, cause: Some(DbError { severity: \"FATAL\", parsed_severity: Some(Fatal), code: SqlState(E57P01), message: \"terminating connection due to administrator command\", detail: None, hint: None, position: None, where_: None, schema: None, table: None, column: None, datatype: None, constraint: None, file: Some(\"postgres.c\"), line: Some(3211), routine: Some(\"ProcessInterrupts\") }) }"
+[00:00:02.111] Server  WARN    ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:02.320] Server  LOG     ✓ Ready in 1859ms
+[00:00:05.725] Server  LOG     prisma:query "SELECT \"public\".\"SupplierProduct\".\"id\", \"public\".\"SupplierProduct\".\"name\", \"public\".\"SupplierProduct\".\"supplier\", \"public\".\"SupplierProduct\".\"price\", \"public\".\"SupplierProduct\".\"unit\", \"public\".\"SupplierProduct\".\"sapiensWorld\", \"public\".\"SupplierProduct\".\"createdAt\", \"public\".\"SupplierProduct\".\"updatedAt\" FROM \"public\".\"SupplierProduct\" WHERE 1=1 ORDER BY \"public\".\"SupplierProduct\".\"name\" ASC OFFSET $1"
+[00:00:05.800] Server  LOG     prisma:query "SELECT \"public\".\"AppConfig\".\"id\", \"public\".\"AppConfig\".\"logoUrl\", \"public\".\"AppConfig\".\"updatedAt\" FROM \"public\".\"AppConfig\" WHERE (\"public\".\"AppConfig\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+[00:00:07.771] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
